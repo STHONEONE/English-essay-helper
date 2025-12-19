@@ -1,4 +1,26 @@
 import nltk
+import ssl
+
+# 1. 解决 SSL 证书问题 (Streamlit Cloud 有时会拦截下载)
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+# 2. 指定下载目录 (防止找不到路径)
+import os
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+if not os.path.exists(nltk_data_path):
+    os.makedirs(nltk_data_path)
+nltk.data.path.append(nltk_data_path)
+
+# 3. 强制下载所有必要的包 (针对 Python 3.13 的修复)
+print("Downloading NLTK data...") # 在日志里打印，方便调试
+nltk.download('punkt', download_dir=nltk_data_path)
+nltk.download('punkt_tab', download_dir=nltk_data_path) # Python 3.13 必须要有这个！
+print("Download complete.")
 
 import streamlit as st
 import re
@@ -161,3 +183,4 @@ if analyze_btn and text_input:
 elif not text_input:
 
     st.info("👈 请在左侧输入作文开始分析")
+
