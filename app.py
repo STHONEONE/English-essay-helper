@@ -1,3 +1,5 @@
+import nltk
+
 import streamlit as st
 import re
 from textblob import TextBlob
@@ -157,4 +159,5 @@ if analyze_btn and text_input:
                     st.error("❌ 这句话结构太复杂，AI 无法自动安全拆分，请人工修改。")
 
 elif not text_input:
+
     st.info("👈 请在左侧输入作文开始分析")
