@@ -1,0 +1,4 @@
+streamlit
+textblob
+nltk
+regex
